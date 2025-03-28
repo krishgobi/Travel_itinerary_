@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Travel Itinerary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Travel Itinerary for {{ destination }}</h1>
+        </header>
+        <main>
+            <div class="itinerary-box">
+                <pre>{{ itinerary }}</pre>
+            </div>
+            <div class="button-group">
+                <a href="/" class="btn btn-secondary">Generate Another Itinerary</a>
+                <button onclick="downloadPDF()" class="btn btn-primary">Download PDF</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(18);
+            doc.text('Travel Itinerary for {{ destination }}', 10, 20);
+            
+            // Add itinerary content
+            doc.setFontSize(12);
+            const itineraryText = `{{ itinerary }}`;
+            const splitText = doc.splitTextToSize(itineraryText, 180);
+            doc.text(splitText, 10, 30);
+            
+            // Save the PDF
+            doc.save('Itinerary_{{ destination }}.pdf');
+        }
+    </script>
+</body>
+</html>
