@@ -1,4 +1,4 @@
 flask
-render_template
+
 request
 google.generativeai
